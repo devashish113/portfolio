@@ -53,7 +53,7 @@ export default function About() {
           </div>
 
           {/* Visual Area (30%) */}
-          <div className="lg:w-[30%] order-1 lg:order-2 relative flex justify-center items-center mt-8 lg:mt-0 hidden md:flex">
+          <div className="lg:w-[30%] order-1 lg:order-2 relative flex justify-center items-center mt-8 lg:mt-0">
             <motion.div
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.5 }}
