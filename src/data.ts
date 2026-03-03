@@ -20,6 +20,22 @@ export const PORTFOLIO_DATA = {
   ],
   projects: [
     {
+      title: "CareerPrep AI – ATS Resume Optimizer",
+      description: "Developed a full-stack AI platform that converts resumes into ATS-optimized formats and provides real-time AI mock interview simulation.",
+      details: [
+        "Built interactive SPA frontend using React.js, Tailwind CSS, GSAP, and Framer Motion with real-time audio capture using Web Speech API.",
+        "Designed high-performance backend using FastAPI with async REST APIs for resume analysis and interview response generation.",
+        "Integrated LLM APIs using Groq SDK and NLP processing using spaCy for keyword extraction and job-description matching.",
+        "Implemented secure file processing system for dynamic PDF/DOCX generation using in-memory storage.",
+        "Containerized frontend and backend using Docker & Docker Compose with Nginx reverse proxy.",
+        "Deployed production-ready infrastructure on AWS EC2 with Elastic IP, Security Groups, and custom swap memory.",
+        "Optimized Docker images using multi-stage builds and .dockerignore to reduce build size and improve performance."
+      ],
+      tags: ["React.js", "FastAPI", "Docker", "AWS EC2", "NLP", "Groq API"],
+      link: "http://13.205.182.228/",
+      github: "https://github.com/devashish113/ats_and_mock_interview"
+    },
+    {
       title: "AI-Assisted Hiring System",
       description: "Developed and deployed an AI-based Hiring System with resume parsing and candidate ranking.",
       details: [
@@ -54,7 +70,7 @@ export const PORTFOLIO_DATA = {
     "Programming": ["Python", "Data Structures & Algorithms"],
     "Databases": ["MySQL", "MongoDB"],
     "Fundamentals": ["Networking (TCP/IP, HTTP, DNS)", "AI/ML Fundamentals"],
-    "Web Development":["React Js","Mongo DB","Node Js","Flask"]
+    "Web Development": ["React Js", "Mongo DB", "Node Js", "Flask"]
   },
   experience: [
     {
