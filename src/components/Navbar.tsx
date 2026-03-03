@@ -17,7 +17,7 @@ export default function Navbar() {
   const navLinks = [
     { name: 'About', href: '#about' },
     { name: 'Projects', href: '#projects' },
-    { name: 'Experience', href: '#experience' }
+    { name: 'Skills', href: '#skills' }
   ];
 
   return (
@@ -25,20 +25,19 @@ export default function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed w-full z-50 transition-all duration-500 ease-in-out px-6 ${
-        scrolled ? 'py-4 glass-nav bg-black/40 backdrop-blur-md shadow-2xl shadow-indigo-500/5' : 'py-6 bg-transparent'
-      }`}
+      className={`fixed w-full z-50 transition-all duration-500 ease-in-out px-6 ${scrolled ? 'py-4 glass-nav bg-black/40 backdrop-blur-md shadow-2xl shadow-indigo-500/5' : 'py-6 bg-transparent'
+        }`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <motion.a
-          href="#"
+        <motion.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="text-2xl font-serif font-semibold tracking-tight text-white flex items-center gap-2 group"
+          className="text-2xl font-serif font-semibold tracking-tight text-white flex items-center gap-2 group cursor-pointer"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           Devashish
           <span className="w-1.5 h-1.5 rounded-full bg-white opacity-0 group-hover:opacity-100 transition-opacity"></span>
-        </motion.a>
+        </motion.div>
 
         <div className="hidden md:flex items-center gap-10 text-sm font-medium text-gray-400">
           {navLinks.map((link) => (
@@ -59,7 +58,7 @@ export default function Navbar() {
           <a href="#contact" className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1 group">
             Contact Me <ArrowUpRight className="w-3 h-3 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
           </a>
-          <a href="/resume.pdf" className="pill-button pill-button-primary text-sm py-2 px-6 ml-4">
+          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" download="Devashish_Resume.pdf" className="pill-button pill-button-primary text-sm py-2 px-6 ml-4">
             Resume
           </a>
         </div>
@@ -104,7 +103,7 @@ export default function Navbar() {
                 className="flex flex-col gap-4 mt-4 pt-4 border-t border-white/10"
               >
                 <a href="#contact" className="text-lg text-gray-300" onClick={() => setIsOpen(false)}>Contact Me</a>
-                <a href="/resume.pdf" className="pill-button pill-button-primary justify-center" onClick={() => setIsOpen(false)}>Download Resume</a>
+                <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" download="Devashish_Resume.pdf" className="pill-button pill-button-primary justify-center" onClick={() => setIsOpen(false)}>Download Resume</a>
               </motion.div>
             </div>
           </motion.div>

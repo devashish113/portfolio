@@ -1,8 +1,42 @@
 import { motion } from 'motion/react';
-import { Mail, Phone, Send } from 'lucide-react';
+import { Mail, Phone, Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data';
+import { useState } from 'react';
 
 export default function Contact() {
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus('loading');
+
+    const formData = new FormData(e.currentTarget);
+    // Add the Web3Forms access key
+    formData.append("access_key", "2d020ffb-f21e-4fad-9baa-d96b31c2bce2");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus('success');
+        (e.target as HTMLFormElement).reset();
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 5000);
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
+  };
+
   return (
     <section id="contact" className="py-32 px-6 bg-transparent relative border-t border-white/5 overflow-hidden">
       {/* Background Decor */}
@@ -64,27 +98,42 @@ export default function Contact() {
             {/* Subtle card glow */}
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.03] to-purple-500/[0.03] pointer-events-none"></div>
 
-            <form className="space-y-6 relative" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-6 relative" onSubmit={handleSubmit}>
               <div className="space-y-6">
-                <div className="relative group">
-                  <input type="text" id="name" className="peer w-full px-0 py-4 bg-transparent border-b border-white/20 text-white placeholder-transparent focus:outline-none focus:border-white transition-colors" placeholder="John Doe" />
-                  <label htmlFor="name" className="absolute left-0 top-4 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:-top-3 peer-focus:text-xs peer-focus:text-white cursor-text">Name</label>
-                </div>
-
-                <div className="relative group">
-                  <input type="email" id="email" className="peer w-full px-0 py-4 bg-transparent border-b border-white/20 text-white placeholder-transparent focus:outline-none focus:border-white transition-colors" placeholder="john@example.com" />
-                  <label htmlFor="email" className="absolute left-0 top-4 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:-top-3 peer-focus:text-xs peer-focus:text-white cursor-text">Email</label>
+                <div className="relative group pt-4">
+                  <input required type="text" id="name" name="name" className="peer w-full px-0 py-2 bg-transparent border-b border-white/20 text-white placeholder-transparent focus:outline-none focus:border-white transition-colors" placeholder="John Doe" />
+                  <label htmlFor="name" className="absolute left-0 top-6 text-gray-500 text-base transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-6 peer-focus:top-0 peer-focus:text-xs peer-focus:text-white cursor-text peer-valid:top-0 peer-valid:text-xs">Name</label>
                 </div>
 
                 <div className="relative group pt-4">
-                  <textarea id="message" rows={4} className="peer w-full px-0 py-4 bg-transparent border-b border-white/20 text-white placeholder-transparent focus:outline-none focus:border-white transition-colors resize-none" placeholder="How can I help you?"></textarea>
-                  <label htmlFor="message" className="absolute left-0 top-4 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-8 peer-focus:top-0 peer-focus:text-xs peer-focus:text-white cursor-text">Message</label>
+                  <input required type="email" id="email" name="email" className="peer w-full px-0 py-2 bg-transparent border-b border-white/20 text-white placeholder-transparent focus:outline-none focus:border-white transition-colors" placeholder="john@example.com" />
+                  <label htmlFor="email" className="absolute left-0 top-6 text-gray-500 text-base transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-6 peer-focus:top-0 peer-focus:text-xs peer-focus:text-white cursor-text peer-valid:top-0 peer-valid:text-xs">Email</label>
+                </div>
+
+                <div className="relative group pt-4">
+                  <textarea required id="message" name="message" rows={4} className="peer w-full px-0 py-2 bg-transparent border-b border-white/20 text-white placeholder-transparent focus:outline-none focus:border-white transition-colors resize-none" placeholder="How can I help you?"></textarea>
+                  <label htmlFor="message" className="absolute left-0 top-6 text-gray-500 text-base transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-6 peer-focus:top-0 peer-focus:text-xs peer-focus:text-white cursor-text peer-valid:top-0 peer-valid:text-xs">Message</label>
                 </div>
               </div>
 
-              <button className="pill-button pill-button-primary w-full mt-10 h-14 group">
-                <span className="flex items-center gap-2">
-                  Send Message <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="pill-button pill-button-primary w-full mt-10 h-14 group disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                <span className="flex items-center justify-center gap-2 w-full">
+                  {status === 'idle' && (
+                    <>Send Message <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /></>
+                  )}
+                  {status === 'loading' && (
+                    <>Sending... <Loader2 className="w-4 h-4 animate-spin" /></>
+                  )}
+                  {status === 'success' && (
+                    <span className="text-green-400 flex items-center gap-2">Message Sent! <CheckCircle2 className="w-4 h-4" /></span>
+                  )}
+                  {status === 'error' && (
+                    <span className="text-red-400 flex items-center gap-2">Something went wrong <AlertCircle className="w-4 h-4" /></span>
+                  )}
                 </span>
               </button>
             </form>

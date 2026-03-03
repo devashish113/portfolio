@@ -3,8 +3,8 @@ export const PORTFOLIO_DATA = {
   role: "Cloud & DevOps Engineer",
   email: "devashishufraul@gmail.com",
   phone: "+91 6200280508",
-  github: "https://github.com",
-  linkedin: "https://linkedin.com",
+  github: "https://github.com/devashish113",
+  linkedin: "https://www.linkedin.com/in/devashish-kumar-155663255/",
   summary: "Aspiring Cloud & DevOps Engineer with hands-on experience in AWS, Docker, Jenkins, Kubernetes, and Linux. Built CI/CD pipelines, containerized applications, and automation projects using AI-assisted rapid development workflows. Skilled in Python, web development, and AI/ML-based projects with strong foundations in DSA and system fundamentals.",
   education: [
     {
@@ -66,7 +66,8 @@ export const PORTFOLIO_DATA = {
     }
   ],
   skills: {
-    "Cloud & DevOps": ["AWS (EC2, S3, IAM, VPC)", "Docker", "Kubernetes", "Linux", "Git & GitHub", "Jenkins"],
+    "Devops": ["Git and GitHub", "Linux", "Jenkins", "GitHub Actions", "Docker", "Basic Kubernetes"],
+    "Cloud (AWS)": ["EC2", "IAM", "S3", "VPC", "Amplify", "ECS", "EKS"],
     "Programming": ["Python", "Data Structures & Algorithms"],
     "Databases": ["MySQL", "MongoDB"],
     "Fundamentals": ["Networking (TCP/IP, HTTP, DNS)", "AI/ML Fundamentals"],

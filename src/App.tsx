@@ -11,10 +11,6 @@ import ParticleBackground from './components/ParticleBackground';
 
 // Advanced Scrolling & Animation
 import Lenis from 'lenis';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   useEffect(() => {
@@ -27,52 +23,18 @@ export default function App() {
       touchMultiplier: 2,
     });
 
-    // Synchronize Lenis scroll with GSAP's ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update);
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
 
-    // Add Lenis's requestAnimationFrame (raf) to GSAP's ticker
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
+    requestAnimationFrame(raf);
 
-    gsap.ticker.lagSmoothing(0);
-
-    // Premium Stacking & Shrinking Sections Effect
-    const sections = document.querySelectorAll('main > section');
-
-    // Add a solid dark glass background to sections so they naturally overlap without looking messy
-    sections.forEach((section) => {
-      section.classList.add('bg-[#030303]/80', 'backdrop-blur-xl', 'border-t', 'border-white/5', 'will-change-transform');
-    });
-
-    sections.forEach((section, index) => {
-      const isLast = index === sections.length - 1;
-      if (isLast) return; // Don't shrink the very last section
-
-      const htmlElement = section as HTMLElement;
-
-      gsap.to(htmlElement, {
-        scale: 0.85,
-        opacity: 0.2,
-        scrollTrigger: {
-          trigger: htmlElement,
-          // If section is taller than screen, pin when bottom hits bottom. If shorter, pin when top hits top.
-          start: () => htmlElement.offsetHeight < window.innerHeight ? "top top" : "bottom bottom",
-          // The pinning ends when the NEXT section's bottom hits the bottom of the screen (or similar duration)
-          // We can just use a fixed scroll distance or let it scrub until the bottom hits the top
-          end: "bottom top",
-          pin: true,
-          pinSpacing: false,
-          scrub: true,
-          invalidateOnRefresh: true, // Recalculates on resize
-        }
-      });
-    });
+    // We removed the GSAP section pinning/stacking effect per user request
+    // Sections will now scroll normally while the video stays fixed in the background
 
     return () => {
       lenis.destroy();
-      gsap.ticker.remove((time) => lenis.raf(time * 1000));
-      ScrollTrigger.getAll().forEach(t => t.kill());
     };
   }, []);
 
@@ -91,10 +53,10 @@ export default function App() {
           <source src="/bg-video.mp4" type="video/mp4" />
         </video>
         <ParticleBackground />
-        {/* Subtle vignette / dark overlay for readability across all sections */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(3,3,3,0.85)_100%)] pointer-events-none"></div>
-        {/* Additional flat dark layer for ensuring high contrast across text */}
-        <div className="absolute inset-0 bg-black/25 pointer-events-none"></div>
+        {/* Light vignette for readability without completely hiding the video */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(3,3,3,0.5)_100%)] pointer-events-none"></div>
+        {/* Flat dark layer — keeps text readable without hiding video (increased to 30% to darken background) */}
+        <div className="absolute inset-0 bg-black/30 pointer-events-none"></div>
       </div>
 
       <Navbar />
